@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestión de Detalles</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<h1>Formulario de Detalle</h1>
+
+<!-- Mensajes -->
+<div th:if="${exito}" class="alert success">[[${exito}]]</div>
+<div th:if="${error}" class="alert error">[[${error}]]</div>
+
+<!-- Formulario de creación -->
+<form th:action="@{/detalles}" th:object="${detalle}" method="post">
+    <label>Nombre:
+        <input type="text" th:field="*{nombre}" required />
+    </label>
+
+    <label>Fecha:
+        <input type="datetime-local" th:field="*{fecha}" required />
+    </label>
+
+    <label>Importe:
+        <input type="number" th:field="*{importe}" step="0.01" required />
+    </label>
+
+    <label>Maestro:
+        <select th:field="*{maestro.id}" required>
+            <option value="" disabled selected>-- Seleccione un maestro --</option>
+            <option th:each="m : ${maestros}" th:value="${m.id}" th:text="${m.descripcion}"></option>
+        </select>
+    </label>
+
+    <button type="submit">Guardar Detalle</button>
+</form>
+
+<!-- Filtro por maestro -->
+<form th:action="@{/detalles/por-maestro}" method="get">
+    <label>Filtrar por maestro:
+        <select name="maestroId">
+            <option th:each="m : ${maestros}" th:value="${m.id}" th:text="${m.descripcion}"></option>
+        </select>
+    </label>
+    <button type="submit">Buscar</button>
+</form>
+
+<!-- Tabla de resultados -->
+<hr>
+<h2>Detalles encontrados</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Descripción</th>
+        <th>Nombre</th>
+        <th>Fecha</th>
+        <th>Importe</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="d : ${detalles}">
+        <td th:text="${d.descripcion}"></td>
+        <td th:text="${d.nombre}"></td>
+        <td th:text="${#temporals.format(d.fecha, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${d.importe}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
