@@ -93,6 +93,7 @@
                     </to>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -106,7 +107,22 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+            <!-- ✅ Plugin añadido para generar MANIFEST con Main-Class -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.testGrupoCastilla.TestGrupoCastillaApplication</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
 
 </project>
